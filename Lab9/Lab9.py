@@ -21,11 +21,12 @@ if __name__ == '__main__':
         y1 = pm.Bernoulli('y1', p=theta, observed=y_1)
         idata = pm.sample(2000, cores=1, return_inferencedata=True)
     
+    #2
     idx = np.argsort(x_1[:,0])
     bd = idata.posterior['bd'].mean(("chain", "draw"))[idx]
     plt.scatter(x_1[:,0], x_1[:,1], c=[f'C{x}' for x in y_1])
     plt.plot(x_1[:,0][idx], bd, color='k')
-    az.plot_hdi(x_1[:,0], idata.posterior['bd'], color='k')
+    az.plot_hdi(x_1[:,0], idata.posterior['bd'], color='k', hdi_prob=0.94)
     plt.xlabel(x_n[0])
     plt.ylabel(x_n[1])
     plt.show()
